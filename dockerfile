@@ -46,7 +46,8 @@ ARG USER_GID=$USER_UID
 RUN apk --no-cache \
     add \
     shadow \
-    bash
+    bash \
+    git
 
 #Se estableceran los permisos para el usuario
 RUN groupmod --gid $USER_GID $USERNAME \
