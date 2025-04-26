@@ -20,7 +20,7 @@ lint:
 	${DOCKER_COMPOSE} npm run lint
 
 deploy:
-	${DOCKER_COMPOSE} npm run deploy
+	${DOCKER_COMPOSE} npm run build && npm run deploy
 
 preview:
 	${DOCKER_COMPOSE} npm run preview
