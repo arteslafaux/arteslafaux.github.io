@@ -13,7 +13,7 @@ const router = createHashRouter([
         element: <LandingPage />,
       },
       {
-        path: "preview/:id",
+        path: "gallery/:id",
         element: <Preview />,
       },
     ],

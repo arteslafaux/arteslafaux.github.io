@@ -10,10 +10,7 @@ import router from "./router";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <PersistGate
-        // i18nIsDynamicList={true}
-        loading={<>...</>}
-        persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         <RouterProvider router={router} />
       </PersistGate>
     </Provider>
