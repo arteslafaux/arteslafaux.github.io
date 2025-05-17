@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
   const { t, i18n } = useTranslation();
   const [currentLang, setCurrentLang] = useState(i18n.language);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,9 +16,21 @@ export default function Navbar() {
       setScrollProgress(progress);
     };
 
+    const handleHeroIntersection = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (location.pathname.includes('/gallery/')) {
+        setIsVisible(customEvent.detail.isIntersecting);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("heroIntersection", handleHeroIntersection as EventListener);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("heroIntersection", handleHeroIntersection as EventListener);
+    };
+  }, [location.pathname]);
 
   const handleLanguageChange = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -25,10 +40,16 @@ export default function Navbar() {
   const headerHeight = 20 - scrollProgress * 4;
   const maxWidth = 100 - scrollProgress * 28;
   const borderRadius = scrollProgress * 9999;
-  const blurStrength = 8 + scrollProgress * -2; // Blur dinámico de 8px a 16px
+  const blurStrength = 8 + scrollProgress * -2;
+
+  const shouldHideNav = location.pathname.includes('/gallery/') && !isVisible;
 
   return (
-    <div className="sticky top-0 z-50 w-full flex justify-center">
+    <div 
+      className={`sticky top-0 z-50 w-full hidden lg:flex justify-center transition-transform duration-300 ${
+        shouldHideNav ? '-translate-y-full' : 'translate-y-0'
+      }`}
+    >
       <header
         className="navbar transition-all duration-300"
         style={{
@@ -48,25 +69,6 @@ export default function Navbar() {
           margin: `${scrollProgress * 0.5}rem 0`,
           border: "1px solid rgba(255, 255, 255, 0.1)",
         }}>
-        {/* Left section – hamburger (only visible on mobile) */}
-        <div className="flex-none lg:hidden">
-          <label htmlFor="drawer" className="btn btn-square btn-ghost">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </label>
-        </div>
-
         {/* Search bar */}
         <div className="flex-1 px-2 lg:px-4">
           <div className="form-control w-full">
@@ -79,7 +81,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop menu */}
-        <nav className="hidden flex-none lg:flex">
+        <nav className="flex-none flex">
           <div className="dropdown dropdown-hover dropdown-bottom dropdown-center">
             <div
               tabIndex={0}

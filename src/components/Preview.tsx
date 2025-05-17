@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useEffect, useRef } from "react";
 /**
  * LandingPage – mockup‑based layout with:
  *  • Navbar menu for desktop + sidebar drawer for mobile (DaisyUI pattern)
@@ -7,45 +9,134 @@ import { useNavigate } from "react-router-dom";
  */
 export default function Preview() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Emitir un evento personalizado con el estado de intersección
+        window.dispatchEvent(
+          new CustomEvent("heroIntersection", {
+            detail: { isIntersecting: entry.isIntersecting }
+          })
+        );
+      },
+      { threshold: 0.1 } // Trigger cuando el 10% del elemento es visible
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => {
+      if (heroRef.current) {
+        observer.unobserve(heroRef.current);
+      }
+    };
+  }, []);
+
   const handleClick = () => {
     navigate("/");
   };
+
   return (
-    <>
-      {/* SEPARADOR VISUAL */}
-      <div className="h-24 w-full bg-primary/40" />
-
-      {/* CONTENIDO PRINCIPAL DEL MOCKUP */}
-      <section className="bg-primary/30 py-16">
-        <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 lg:flex-row lg:items-start">
-          {/* Imagen lado izquierdo */}
-          <div className="mx-auto w-full max-w-md flex-shrink-0 lg:w-1/2 lg:max-w-none">
-            <div className="aspect-video w-full bg-base-100 shadow-inner" />
-          </div>
-
-          {/* Divider vertical en desktop */}
-          <div className="hidden h-auto w-px bg-base-300 lg:block" />
-
-          {/* Texto lado derecho */}
-          <div className="w-full lg:w-1/2">
-            <h2 className="text-2xl font-bold">Agregar un título</h2>
-            <h3 className="mb-6 text-lg font-medium">Agregar un subtítulo</h3>
-
-            <p className="border-t border-dashed pt-4 font-light">
-              Texto…………………………………………………………………………………………………………………………
+    <main className="bg-white">
+      {/* Hero Section Preview */}
+      <section 
+        ref={heroRef}
+        className="relative min-h-[60vh] bg-cover bg-center bg-fixed overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('https://picsum.photos/1920/1080?random=preview')",
+          }}
+        />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+        
+        <div className="relative flex items-center justify-center min-h-[60vh] px-4">
+          <div className="text-center text-white max-w-2xl mx-auto">
+            <h1 className="mb-4 text-5xl font-light tracking-wider">
+              {t('gallery.project')} {t('gallery.title')}
+            </h1>
+            <div className="mb-6 h-[1px] w-24 mx-auto bg-white opacity-60" />
+            <p className="mb-8 text-lg font-light leading-relaxed opacity-90">
+              {t('gallery.description')}
             </p>
-            <p className="border-t border-dashed pt-4 font-light">
-              …………………………………………………………………………………………………………………………………………………
-            </p>
-            <button
+            <button 
               onClick={handleClick}
-              className="mt-6 rounded-lg border border-base-content px-4 py-2 font-medium text-white shadow hover:bg-base-content/80"></button>
+              className="btn btn-outline btn-lg text-white hover:bg-white hover:text-black transition-all duration-300 border-2">
+              {t('gallery.view')}
+            </button>
           </div>
         </div>
       </section>
 
-      {/* SEPARADOR INFERIOR */}
-      <div className="h-24 w-full bg-primary/40" />
-    </>
+      {/* Project Details Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Image Gallery */}
+            <div className="space-y-6">
+              <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-xl">
+                <img 
+                  src="https://picsum.photos/1920/1080?random=1" 
+                  alt="Project preview" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="aspect-square rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://picsum.photos/800/800?random=2" 
+                    alt="Detail 1" 
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <div className="aspect-square rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="https://picsum.photos/800/800?random=3" 
+                    alt="Detail 2" 
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Project Info */}
+            <div className="lg:sticky lg:top-20">
+              <div className="prose prose-lg max-w-none">
+                <h2 className="text-3xl font-light mb-6">{t('header.title')}</h2>
+                <p className="text-neutral-600 font-light leading-relaxed mb-6">
+                  {t('header.description')}
+                </p>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full" />
+                    <span className="text-neutral-600 font-light">{t('footer.links.branding')}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full" />
+                    <span className="text-neutral-600 font-light">{t('footer.links.design')}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full" />
+                    <span className="text-neutral-600 font-light">{t('footer.links.marketing')}</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={handleClick}
+                  className="mt-8 btn btn-primary btn-lg w-full">
+                  {t('gallery.view')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

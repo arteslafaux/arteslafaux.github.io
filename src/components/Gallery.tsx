@@ -21,11 +21,11 @@ export default function Gallery() {
                 <img 
                   src={`https://picsum.photos/800/1000?random=${idx + 1}`}
                   alt={`Gallery item ${idx + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 lg:group-hover:scale-110"
                 />
               </div>
-              <div className="absolute inset-0 bg-white/5 group-hover:bg-black/40 transition-all duration-500 flex items-end">
-                <div className="p-6 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+              <div className="absolute inset-0 bg-black/40 lg:bg-white/5 lg:group-hover:bg-black/40 transition-all duration-500 flex items-end">
+                <div className="p-6 w-full lg:transform lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-500">
                   <h3 className="text-white text-xl font-light mb-2">
                     {t('gallery.title')} #{idx + 1}
                   </h3>

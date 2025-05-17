@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import ConstructionNotice from "./ConstructionNotice";
+import Dock from "./Dock";
 
 export default function LayoutContainer() {
   return (
@@ -32,6 +33,9 @@ export default function LayoutContainer() {
           <div className="fixed inset-0 z-50 hidden items-center justify-center bg-base-100/80 peer-checked:flex">
             <span className="loading loading-spinner loading-lg text-primary" />
           </div>
+          
+          {/* DOCK - Mobile navigation */}
+          <Dock />
         </div>
         {/* ───────────────   DRAWER SIDE   ─────────────── */}
         <Sidebar />

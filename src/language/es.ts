@@ -42,7 +42,8 @@ const es = {
       terms: "Términos",
     },
     description: "Creando diseños únicos y experiencias memorables para cada cliente.",
-    copyright: 'Derechos Reservados © {{year}} Portfolio. Todos los derechos reservados por {{username}}'
+    copyright: 'Derechos Reservados © {{year}} Portfolio. Todos los derechos reservados por ',
+    username: 'eaangrino'
   },
   notification: {
     construction: "Sitio en construcción, pronto disponible"

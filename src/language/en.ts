@@ -42,7 +42,8 @@ const en = {
       terms: "Terms",
     },
     description: "Creating unique designs and memorable experiences for each client.",
-    copyright: 'Copyright © {{year}} Portfolio. All rights reserved by {{username}}'
+    copyright: 'Copyright © {{year}} Portfolio. All rights reserved by ',
+    username: 'eaangrino'
   },
   notification: {
     construction: "Site under construction, coming soon"
