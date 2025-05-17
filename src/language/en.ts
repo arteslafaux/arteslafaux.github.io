@@ -11,19 +11,42 @@ const en = {
         spanish: "Spanish",
       },
     },
+    search: "Search projects...",
+    explore: "Explore",
   },
   gallery: {
-    title: "Gallery",
-    view: "View"
+    title: "Projects",
+    view: "View Portfolio",
+    project: "Project",
+    description: "Explore my collection of creative works and designs"
   },
   header: {
-    title: "Welcome to the Landing Page",
-    subtitle: "A modern and responsive landing page template",
-    description: "A modern and responsive landing page template built with TailwindCSS, DaisyUI, React, and TypeScript.",
+    title: "Artes Lafaux",
+    subtitle: "Transforming Ideas into Visual Experiences",
+    description: "Designer specialized in creating unique and memorable experiences that connect brands with people through design.",
   },
   footer: {
-    copyright: 'Copyright © {{year}} Your Company Name. All rights reserved by {{username}}'
+    sections: {
+      services: "Services",
+      company: "Company",
+      legal: "Legal",
+    },
+    links: {
+      branding: "Branding",
+      design: "Graphic Design",
+      marketing: "Digital Marketing",
+      about: "About Me",
+      contact: "Contact",
+      blog: "Blog",
+      privacy: "Privacy",
+      terms: "Terms",
+    },
+    description: "Creating unique designs and memorable experiences for each client.",
+    copyright: 'Copyright © {{year}} Portfolio. All rights reserved by {{username}}'
+  },
+  notification: {
+    construction: "Site under construction, coming soon"
   }
-}
+};
 
 export default en;

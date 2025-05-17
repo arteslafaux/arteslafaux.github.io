@@ -1,6 +1,6 @@
 import Gallery from "./components/Gallery";
 import Hero from "./components/Hero";
-import Intro from "./components/Intro";
+// import Intro from "./components/Intro";
 
 /**
  * LandingPage – mockup‑based layout with:
@@ -17,7 +17,7 @@ export default function LandingPage() {
       <Hero />
 
       {/* INTRO STRIP */}
-      <Intro />
+      {/* <Intro /> */}
 
       {/* GALLERY */}
       <Gallery />

@@ -6,6 +6,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./app/store";
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
+import './i18n';
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
