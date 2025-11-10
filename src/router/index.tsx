@@ -1,20 +1,29 @@
 import { createHashRouter } from "react-router-dom";
-import LandingPage from "../LandingPage";
-import LayoutContainer from "../components/Layout";
-import Preview from "../components/Preview";
+import LandingPage from "../pages/LandingPage";
+import MainContent from "../components/MainContent";
+import Collection from "../components/Collection";
+import Contact from "../components/Contact";
 
 const router = createHashRouter([
   {
     path: "",
-    element: <LayoutContainer />,
+    element: <LandingPage />,
     children: [
       {
         path: "",
-        element: <LandingPage />,
+        element: <MainContent />,
       },
       {
-        path: "gallery/:id",
-        element: <Preview />,
+        path: "collection",
+        element: <Collection />,
+      },
+      {
+        path: "collection/:id",
+        // element: <Preview />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
       },
     ],
   },

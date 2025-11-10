@@ -1,29 +1,26 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import es from './language/es';
-import en from './language/en';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import en from "./lang/en.ts";
+import es from "./lang/es.ts";
+import Backend from "i18next-http-backend";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 i18n
   .use(LanguageDetector)
+  .use(Backend)
   .use(initReactI18next)
   .init({
     resources: {
-      es: {
-        translation: es,
-      },
-      en: {
-        translation: en,
-      },
+      en: { ...en },
+      es: { ...es },
     },
-    fallbackLng: 'es',
+    lng: "es",
+    fallbackLng: "es",
+    debug: true,
+
     interpolation: {
       escapeValue: false,
     },
-    detection: {
-      order: [ 'localStorage', 'navigator' ],
-      caches: [ 'localStorage' ],
-    },
   });
 
-export default i18n; 
+export default i18n;
