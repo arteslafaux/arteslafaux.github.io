@@ -63,19 +63,19 @@ export default function Collection() {
         <h1 className="text-5xl font-extrabold tracking-wide text-white mb-4">
           {t("title") || "Colección de Proyectos"}
         </h1>
-        <p className="text-gray-400 text-sm max-w-xl mx-auto">
+        <p className="text-gray-200 text-lg max-w-xl mx-auto">
           {t("subtitle") ||
             "Una selección de trabajos que reflejan creatividad, identidad y diseño funcional."}
         </p>
       </div>
 
       {/* 🔹 Contenedor del carousel + botones */}
-      <div className="relative w-11/12 max-w-6xl flex items-center justify-center">
+      <div className="relative w-11/12 max-w-6xl flex flex-col md:flex-row items-center justify-center">
         {/* Botón Izquierda */}
         <button
           aria-label="Prev"
           onClick={() => simulateKey("ArrowLeft")}
-          className="absolute left-0 z-20 bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-3 rounded-full shadow-md transition-all duration-300 cursor-pointer">
+          className="md:flex hidden absolute left-0 z-20 bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-3 rounded-full shadow-md transition-all duration-300 cursor-pointer">
           <ChevronLeftIcon className="w-6 h-6" />
         </button>
 
@@ -112,9 +112,25 @@ export default function Collection() {
         <button
           aria-label="Next"
           onClick={() => simulateKey("ArrowRight")}
-          className="absolute right-0 z-20 bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-3 rounded-full shadow-md transition-all duration-300 cursor-pointer">
+          className="md:flex hidden absolute right-0 z-20 bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-3 rounded-full shadow-md transition-all duration-300 cursor-pointer">
           <ChevronRightIcon className="w-6 h-6" />
         </button>
+
+        <div className="flex md:hidden w-full justify-center gap-10 mt-6">
+          <button
+            aria-label="Prev-Mobile"
+            onClick={() => simulateKey("ArrowLeft")}
+            className="bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-4 rounded-full shadow-md transition-all duration-300 cursor-pointer">
+            <ChevronLeftIcon className="w-6 h-6" />
+          </button>
+
+          <button
+            aria-label="Next-Mobile"
+            onClick={() => simulateKey("ArrowRight")}
+            className="bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-4 rounded-full shadow-md transition-all duration-300 cursor-pointer">
+            <ChevronRightIcon className="w-6 h-6" />
+          </button>
+        </div>
       </div>
 
       <Link

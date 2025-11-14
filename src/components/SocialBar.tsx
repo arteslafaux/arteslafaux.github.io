@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function SocialBar() {
   return (
-    <div className="h-full w-16 flex flex-col justify-between items-center pb-10 pt-4 border-l border-l-[#ffffff0c]">
+    <div className="w-16 hidden md:flex flex-col justify-between items-center pb-10 pt-4 border-l border-l-[#ffffff0c] ">
       <Link to="#" className="hover:text-white transition-colors">
         <Squares2X2Icon className="w-8 h-8" />
       </Link>
