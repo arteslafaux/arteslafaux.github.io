@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import SeedData from "./seedData.ts";
 
 export default function Collection() {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ export default function Collection() {
 
   return (
     <main className="relative w-full gap-12 h-full flex flex-col items-center justify-center overflow-hidden text-gray-200">
+      <Outlet />
       {/* Título */}
       <div className="text-center leading-tight [text-shadow:2px_2px_4px_rgb(0_0_0/60%)]">
         <h1 className="text-5xl font-extrabold tracking-wide text-white mb-4">
@@ -83,6 +85,48 @@ export default function Collection() {
         <div
           ref={carouselRef}
           className="carousel carousel-center bg-[#2b2f38] rounded-box w-full space-x-6 p-8 shadow-lg scroll-smooth">
+          {SeedData.map((item, idx) => (
+            <div
+              key={idx}
+              className="carousel-item relative group transition-all duration-500"
+              onClick={() => navigate(`/collection/${item.id}`)}>
+              {/* Botón Ver */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // evita que el click active el card
+                  navigate(`/collection/${item.id}`);
+                }}
+                className="
+                  absolute top-2 right-2 z-20
+                  bg-orange-500 hover:bg-orange-400
+                  text-white text-lg font-semibold
+                  px-4 py-1 rounded-full
+                  shadow-md transition-all
+                  cursor-pointer
+                ">
+                Ver
+              </button>
+
+              <img
+                src={Array.isArray(item.image) ? item.image[0] : item.image}
+                alt={`Gallery item ${idx + 1}`}
+                className="rounded-box w-80 h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+
+              <div
+                className="absolute bottom-0 left-0 w-full bg-white/50 py-3 px-4 
+               rounded-b-box transition-all duration-300 
+               group-hover:bg-white/60 group-hover:rounded-t-box backdrop-blur-md">
+                <h3 className="text-black font-semibold text-lg">
+                  {item.title}
+                </h3>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* <div
+          ref={carouselRef}
+          className="carousel carousel-center bg-[#2b2f38] rounded-box w-full space-x-6 p-8 shadow-lg scroll-smooth">
           {[...Array(16)].map((_, idx) => (
             <div
               key={idx}
@@ -106,7 +150,7 @@ export default function Collection() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/* Botón Derecha */}
         <button

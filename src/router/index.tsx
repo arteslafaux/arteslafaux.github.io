@@ -3,6 +3,7 @@ import LandingPage from "../pages/LandingPage";
 import MainContent from "../components/MainContent";
 import Collection from "../components/Collection";
 import Contact from "../components/Contact";
+import GalleryModal from "../components/GalleryModal";
 
 const router = createHashRouter([
   {
@@ -16,11 +17,14 @@ const router = createHashRouter([
       {
         path: "collection",
         element: <Collection />,
+        children: [
+          {
+            path: ":id",
+            element: <GalleryModal />, // nuevo modal
+          },
+        ],
       },
-      {
-        path: "collection/:id",
-        // element: <Preview />,
-      },
+
       {
         path: "contact",
         element: <Contact />,
