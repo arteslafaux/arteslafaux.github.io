@@ -20,7 +20,7 @@ export default function GalleryModal() {
       <div
         className={`
           bg-[#2b2f38] p-6 rounded-xl text-white shadow-2xl
-          ${isVertical ? "max-w-md" : "w-11/12 max-w-4xl"}
+          ${isVertical ? "max-w-md" : "w-11/12 max-w-3xl"}
         `}
         onClick={(e) => e.stopPropagation()}>
         {/* Imagen o galería */}
