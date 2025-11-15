@@ -110,7 +110,7 @@ export default function SplashBackground() {
       {/* 🔘 Botón para regenerar el fondo */}
       <button
         onClick={() => setSeed((s) => s + 1)}
-        className="absolute bottom-6 left-6 z-20 text-white px-8 py-3 text-lg cursor-pointer transition-transform duration-300 hover:scale-120">
+        className="absolute bottom-6 left-6 z-20 text-white px-8 py-3 text-lg cursor-pointer transition-transform duration-300 hover:scale-120 hidden sm:flex">
         {/* Fondo SVG */}
         <img
           src="/splash_button.svg"
