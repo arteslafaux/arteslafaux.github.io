@@ -1,64 +1,14 @@
+import { EyeIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import SeedData from "./seedData.ts";
 
 export default function Collection() {
   const navigate = useNavigate();
   const { t } = useTranslation("collection");
-  const carouselRef = useRef<HTMLDivElement | null>(null);
-
-  const simulateKey = (key: "ArrowLeft" | "ArrowRight") => {
-    const keyboardEvent = new KeyboardEvent("keydown", { key });
-    document.dispatchEvent(keyboardEvent);
-  };
-
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (!carouselRef.current) return;
-
-      const carousel = carouselRef.current;
-      const scrollAmount = 400;
-      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-      const threshold = 40; // tolerancia para considerar "estoy al final/inicio"
-
-      if (e.key === "ArrowRight") {
-        if (carousel.scrollLeft >= maxScroll - threshold) {
-          // Ya estoy en el final → ahora sí loop al inicio
-          carousel.scrollTo({ left: 0, behavior: "smooth" });
-        } else if (
-          carousel.scrollLeft + scrollAmount >=
-          maxScroll - threshold
-        ) {
-          // Próximo paso me dejaría cerca del final → ajusto al final exacto
-          carousel.scrollTo({ left: maxScroll, behavior: "smooth" });
-        } else {
-          // Movimiento normal
-          carousel.scrollBy({ left: scrollAmount, behavior: "smooth" });
-        }
-      }
-
-      if (e.key === "ArrowLeft") {
-        if (carousel.scrollLeft <= threshold) {
-          // Ya estoy al inicio → loop al final
-          carousel.scrollTo({ left: maxScroll, behavior: "smooth" });
-        } else if (carousel.scrollLeft - scrollAmount <= threshold) {
-          // Próximo paso me deja cerca del inicio → ajusto al inicio exacto
-          carousel.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          // Movimiento normal
-          carousel.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyPress);
-    return () => document.removeEventListener("keydown", handleKeyPress);
-  }, []);
 
   return (
-    <main className="relative w-full gap-12 h-full flex flex-col items-center justify-center overflow-hidden text-gray-200">
+    <main className="relative w-full min-h-full flex flex-col items-center gap-12 px-4 py-10 md:px-6 md:py-12 text-gray-200">
       <Outlet />
       {/* Título */}
       <div className="text-center leading-tight [text-shadow:2px_2px_4px_rgb(0_0_0/60%)]">
@@ -71,109 +21,49 @@ export default function Collection() {
         </p>
       </div>
 
-      {/* 🔹 Contenedor del carousel + botones */}
-      <div className="relative w-11/12 max-w-6xl flex flex-col md:flex-row items-center justify-center">
-        {/* Botón Izquierda */}
-        <button
-          aria-label="Prev"
-          onClick={() => simulateKey("ArrowLeft")}
-          className="md:flex hidden absolute left-0 z-20 bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-3 rounded-full shadow-md transition-all duration-300 cursor-pointer">
-          <ChevronLeftIcon className="w-6 h-6" />
-        </button>
-
-        {/* Carousel DaisyUI */}
-        <div
-          ref={carouselRef}
-          className="carousel carousel-center bg-[#2b2f38] rounded-box w-full space-x-6 p-8 shadow-lg scroll-smooth">
+      <div className="w-11/12 max-w-6xl rounded-[2rem] bg-[#2b2f38]/85 p-4 md:p-6 shadow-lg backdrop-blur-sm">
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-6">
           {SeedData.map((item, idx) => (
             <div
               key={idx}
-              className="carousel-item relative group transition-all duration-500"
+              className="group relative mb-4 md:mb-6 break-inside-avoid cursor-pointer overflow-hidden rounded-[1.5rem] bg-[#20242c] shadow-md transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
               onClick={() => navigate(`/collection/${item.id}`)}>
-              {/* Botón Ver */}
               <button
                 onClick={(e) => {
-                  e.stopPropagation(); // evita que el click active el card
+                  e.stopPropagation();
                   navigate(`/collection/${item.id}`);
                 }}
                 className="
-                  absolute top-2 right-2 z-20
-                  bg-orange-500 hover:bg-orange-400
-                  text-white text-lg font-semibold
-                  px-4 py-1 rounded-full
-                  shadow-md transition-all
+                  absolute top-3 right-3 z-20 inline-flex items-center gap-2
+                  rounded-full border border-white/15 bg-orange-500 px-3 py-2
+                  text-white shadow-md transition-all duration-300
+                  hover:bg-orange-400 hover:shadow-lg
                   cursor-pointer
-                ">
-                Ver
+                "
+                aria-label={`${t("viewButton")} ${item.title}`}>
+                <EyeIcon className="h-5 w-5" />
+                <span className="text-xs font-semibold uppercase tracking-[0.2em]">
+                  {t("viewButton")}
+                </span>
               </button>
 
               <img
                 src={Array.isArray(item.image) ? item.image[0] : item.image}
                 alt={`Gallery item ${idx + 1}`}
-                className="rounded-box w-80 h-96 object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full h-auto transition-transform duration-700 group-hover:scale-[1.03]"
               />
 
               <div
-                className="absolute bottom-0 left-0 w-full bg-white/50 py-3 px-4 
-               rounded-b-box transition-all duration-300 
-               group-hover:bg-white/60 group-hover:rounded-t-box backdrop-blur-md">
-                <h3 className="text-black font-semibold text-lg">
+                className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/45 to-transparent px-4 pb-4 pt-12 transition-all duration-300">
+                <h3 className="text-white font-semibold text-lg">
                   {item.title}
                 </h3>
-              </div>
-            </div>
-          ))}
-        </div>
-        {/* <div
-          ref={carouselRef}
-          className="carousel carousel-center bg-[#2b2f38] rounded-box w-full space-x-6 p-8 shadow-lg scroll-smooth">
-          {[...Array(16)].map((_, idx) => (
-            <div
-              key={idx}
-              className="carousel-item relative group cursor-pointer transition-all duration-500"
-              onClick={() => navigate(`/gallery/${idx + 1}`)}>
-              <img
-                src={`https://picsum.photos/800/1000?random=${idx + 1}`}
-                alt={`Gallery item ${idx + 1}`}
-                className="rounded-box w-80 h-96 object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div
-                className="absolute bottom-0 left-0 w-full bg-white/50 py-3 px-4 
-                           rounded-b-box transition-all duration-300 
-                           group-hover:bg-white/60 group-hover:rounded-t-box backdrop-blur-md">
-                <h3 className="text-black font-semibold text-lg">
-                  {t("gallery.title")} #{idx + 1}
-                </h3>
-                <p className="text-gray-700 text-xs">
-                  {t("header.description")}
+                <p className="mt-1 text-sm text-white/75">
+                  {item.technique}
                 </p>
               </div>
             </div>
           ))}
-        </div> */}
-
-        {/* Botón Derecha */}
-        <button
-          aria-label="Next"
-          onClick={() => simulateKey("ArrowRight")}
-          className="md:flex hidden absolute right-0 z-20 bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-3 rounded-full shadow-md transition-all duration-300 cursor-pointer">
-          <ChevronRightIcon className="w-6 h-6" />
-        </button>
-
-        <div className="flex md:hidden w-full justify-center gap-10 mt-6">
-          <button
-            aria-label="Prev-Mobile"
-            onClick={() => simulateKey("ArrowLeft")}
-            className="bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-4 rounded-full shadow-md transition-all duration-300 cursor-pointer">
-            <ChevronLeftIcon className="w-6 h-6" />
-          </button>
-
-          <button
-            aria-label="Next-Mobile"
-            onClick={() => simulateKey("ArrowRight")}
-            className="bg-[#2b2f38]/80 hover:bg-orange-500 text-white p-4 rounded-full shadow-md transition-all duration-300 cursor-pointer">
-            <ChevronRightIcon className="w-6 h-6" />
-          </button>
         </div>
       </div>
 

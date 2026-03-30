@@ -27,7 +27,10 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
     ],
     preview: {
-      allowedHosts: [ "hp15da0011la" ],
+      allowedHosts: [
+        "hp15da0011la",
+        "hp15da0011la.local"
+      ],
       host: '0.0.0.0',
       cors: true,
       port: 4173,
@@ -36,7 +39,6 @@ export default defineConfig(({ mode }) => {
       allowedHosts: [
         "hp15da0011la",
         "hp15da0011la.local"
-
       ],
       watch: { usePolling: true },
       host: '0.0.0.0',
